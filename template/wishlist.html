@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap"
+        rel="stylesheet">
+    <!-- Option 1: Include in HTML -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <title>Hexashop Ecommerce HTML CSS Template</title>
+
+    {% load static %}
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/bootstrap.min.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static '/assets/css/font-awesome.css' %}">
+
+    <link rel="stylesheet" href="{% static '/assets/css/templatemo-hexashop.css' %}">
+
+    <link rel="stylesheet" href="{% static '/assets/css/owl-carousel.css' %}">
+
+    <link rel="stylesheet" href="{% static '/assets/css/lightbox.css' %}">
+    <!--
+
+TemplateMo 571 Hexashop
+
+https://templatemo.com/tm-571-hexashop
+
+-->
+</head>
+<style>
+    .chandra-1 {
+        font-size: 38px;
+    }
+
+    .ch {
+        position: relative;
+        top: 5px;
+        font-size: 30px;
+    }
+
+    .no {
+        position: relative;
+        right: 23px;
+        bottom: 1px;
+    }
+</style>
+
+<body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="/" class="logo">
+                            <img src="{% static 'assets/images/logo.png' %}">
+                        </a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li class="scroll-to-section"><a href="/index">Home</a></li>
+                            <li class="scroll-to-section"><a href="#men">Men's</a></li>
+                            <li class="scroll-to-section"><a href="#women">Women's</a></li>
+                            <li class="scroll-to-section"><a href="#kids">Kid's</a></li>
+                            <li class="scroll-to-section"><a href="/bag"><i class="bi bi-cart2 chandra-1"></i><span
+                                        class="no">{{number}}</span></a></li>
+                            <li class="scroll-to-section"><a href=""><i class="bi bi-heart-fill ch"></i></a></li>
+                            <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
+    <div class="main-banner bg-light" id="top">
+        {% csrf_token %}
+        <div class="container-fluid">
+            <center>
+                <div class="contact-us ">
+                    <div class="container">
+                        <div class="table-bordered">
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>S.no</th>
+                                    <th>Username</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Price</th>
+                                    <th>Offer-price</th>
+                                    <th>Category</th>
+                                    <th>Amendments</th>
+                                </tr>
+
+                                {% for i in wish %}
+
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{i.username}}</td>
+                                    <td><img src="{{i.product_image.url}}" width="100" height="100" alt=""></td>
+                                    <td>{{i.product_name}}</td>
+                                    <td>{{i.product_description}}</td>
+                                    <td><del class="text-danger">&#8377;{{i.product_price}}</del></td>
+                                    <td class="text-success">&#8377;{{i.product_offerprice}}</td>
+                                    <td>{{i.product_category}}</td>
+                                    <td>
+                                        <a href="/delete2/{{i.id}}" class="btn btn-danger">Remove</a>
+                                        <br><br>
+                                        <a href="/order/{{ i.product_id }}"><button
+                                                class="btn btn-secondary">Shop now</button></a>
+                                    </td>
+
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </center>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area Start ***** -->
+
+    <!-- ***** Main Banner Area End ***** -->
+
+
+    <!-- ***** Footer Start ***** -->
+
+
+    <!-- jQuery -->
+    <script src="{% static '/assets/js/jquery-2.1.0.min.js '%}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{% static '/assets/js/popper.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.min.js' %}"></script>
+
+    <!-- Plugins -->
+    <script src="{% static 'assets/js/owl-carousel.js '%}"></script>
+    <script src="{% static 'assets/js/accordions.js '%}"></script>
+    <script src="{% static 'assets/js/datepicker.js '%}"></script>
+    <script src="{% static 'assets/js/scrollreveal.min.js '%}"></script>
+    <script src="{% static 'assets/js/waypoints.min.js '%}"></script>
+    <script src="{% static 'assets/js/jquery.counterup.min.js '%}"></script>
+    <script src="{% static 'assets/js/imgfix.min.js '%}"></script>
+    <script src="{% static 'assets/js/slick.js '%}"></script>
+    <script src="{% static 'assets/js/lightbox.js '%}"></script>
+    <script src="{% static 'assets/js/isotope.js '%}"></script>
+
+    <!-- Global Init -->
+    <script src="{% static 'assets/js/custom.js '%}"></script>
+
+    <script>
+
+        $(function () {
+            var selectedClass = "";
+            $("p").click(function () {
+                selectedClass = $(this).attr("data-rel");
+                $("#portfolio").fadeTo(50, 0.1);
+                $("#portfolio div").not("." + selectedClass).fadeOut();
+                setTimeout(function () {
+                    $("." + selectedClass).fadeIn();
+                    $("#portfolio").fadeTo(50, 1);
+                }, 500);
+
+            });
+        });
+
+    </script>
+
+</body>
+
+</html>
