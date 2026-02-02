@@ -6,24 +6,32 @@ from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout as auth_logout
-from myapp.models import Addproduct, Addcart, Payment, Wishlist
+from .models import Addproduct, Addcart, Payment, Wishlist
 
 
 def index(request):
+    men = Addproduct.objects.filter(category="Men")
+    women = Addproduct.objects.filter(category="Women")
+    kids = Addproduct.objects.filter(category="Kids")
+
     if request.user.is_authenticated:
         username = request.user.username
         data = Addcart.objects.filter(username=username)
-        men = Addproduct.objects.filter(category="Men")
-        women = Addproduct.objects.filter(category="Women")
-        kids = Addproduct.objects.filter(category="Kids")
-        context = {"women": women, "men": men, "Kids": kids, "number": len(data)}
-        return render(request, "index.html", context)
+        context = {
+            "women": women,
+            "men": men,
+            "Kids": kids,
+            "number": len(data),
+        }
     else:
-        men = Addproduct.objects.filter(category="Men")
-        women = Addproduct.objects.filter(category="Women")
-        kids = Addproduct.objects.filter(category="Kids")
-        context = {"women": women, "men": men, "Kids": kids}
-        return render(request, "index.html", context)
+        context = {
+            "women": women,
+            "men": men,
+            "Kids": kids,
+        }
+
+    return render(request, "myapp/index.html", context)
+
 
 
 def sign(request):
