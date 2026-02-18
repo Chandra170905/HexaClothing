@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponse, HttpResponseNotFound
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import logout as auth_logout
+import os
 from .models import Addproduct, Addcart, Payment, Wishlist
 
 
@@ -53,9 +53,11 @@ def sign(request):
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
 
-        subject = "🎉 Welcome to Hexacloth!"
+        subject = "Welcome to Hexacloth!"
         msg = "Your account has been created successfully!"
-        send_mail(subject, msg, "Himanshu393700@gamil.com", [email])
+        from_email = os.getenv("EMAIL_HOST_USER") or "no-reply@hexaclothing.com"
+        # Do not fail signup if SMTP credentials are missing in deployment.
+        send_mail(subject, msg, from_email, [email], fail_silently=True)
 
         return render(request, "myapp/login.html", {"msg": "Account created successfully"})
 
