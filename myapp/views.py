@@ -42,13 +42,13 @@ def sign(request):
         confirmpassword = request.POST["confirmpassword"]
 
         if User.objects.filter(username=username).exists():
-            return render(request, "signup.html", {"msg": "Username already taken"})
+            return render(request, "myapp/signup.html", {"msg": "Username already taken"})
 
         if User.objects.filter(email=email).exists():
-            return render(request, "signup.html", {"msg": "Email already registered"})
+            return render(request, "myapp/signup.html", {"msg": "Email already registered"})
 
         if password != confirmpassword:
-            return render(request, "signup.html", {"msg": "Passwords do not match"})
+            return render(request, "myapp/signup.html", {"msg": "Passwords do not match"})
 
         user = User.objects.create_user(username=username, email=email, password=password)
         user.save()
@@ -57,11 +57,11 @@ def sign(request):
         msg = "Your account has been created successfully!"
         send_mail(subject, msg, "Himanshu393700@gamil.com", [email])
 
-        return render(request, "login.html", {"msg": "Account created successfully"})
+        return render(request, "myapp/login.html", {"msg": "Account created successfully"})
 
     else:
         form = UserCreationForm()
-        return render(request, "signup.html", {"form": form})
+        return render(request, "myapp/signup.html", {"form": form})
 
 def submit(request):
     return sign(request)  # Avoid duplicate logic
@@ -76,9 +76,9 @@ def log(request):
             login(request, user)
             return redirect("/")
         else:
-            return render(request, "login.html", {"msg": "Invalid credentials"})
+            return render(request, "myapp/login.html", {"msg": "Invalid credentials"})
     else:
-        return render(request, "login.html")
+        return render(request, "myapp/login.html")
 
 def logout(request):
     auth_logout(request)
@@ -91,16 +91,16 @@ def adm(request):
         if username in arr:
             return redirect("/dash")
         else:
-            return render(request, "admin.html", {"msg": "Password not matched"})
-    return render(request, "admin.html")
+            return render(request, "myapp/admin.html", {"msg": "Password not matched"})
+    return render(request, "myapp/admin.html")
 
 
 def abt(request):
-    return render(request, "about.html")
+    return render(request, "myapp/about.html")
 
 
 def pro(request):
-    return render(request, "products.html")
+    return render(request, "myapp/products.html")
 
 
 @login_required(login_url='/log')
@@ -108,14 +108,14 @@ def order(request, id):
     username = request.user.username
     data = Addcart.objects.filter(username=username)
     product = Addproduct.objects.get(id=id)
-    return render(request, "single-product.html", {"data": product, "number": len(data)})
+    return render(request, "myapp/single-product.html", {"data": product, "number": len(data)})
 
 
 def dash(request):
     products = Addproduct.objects.all()
     orders = Payment.objects.all()
     total_amount = sum(int(order.amount) for order in orders)
-    return render(request, "dashboard.html", {
+    return render(request, "myapp/dashboard.html", {
         "totalamount": total_amount,
         "totalproduct": len(products),
         "totalorder": len(orders)
@@ -134,12 +134,12 @@ def add(request):
         )
         product.save()
         return redirect("/view")
-    return render(request, "add_product.html")
+    return render(request, "myapp/add_product.html")
 
 
 def view(request):
     data = Addproduct.objects.all()
-    return render(request, 'view_product.html', {"data": data})
+    return render(request, "myapp/view_product.html", {"data": data})
 
 
 def delete_product(request, id):
@@ -156,7 +156,7 @@ def edit(request, id):
         ch.product_offerprice = request.POST['product_offerprice']
         ch.save()
         return redirect("/view")
-    return render(request, "add_product.html", {"data": ch})
+    return render(request, "myapp/add_product.html", {"data": ch})
 
 
 @login_required(login_url='/log')
@@ -207,7 +207,7 @@ def placeorder(request):
         )
         order.save()
         return redirect("/page")
-    return render(request, "payment.html", {"total": total, "pro": unique_products})
+    return render(request, "myapp/payment.html", {"total": total, "pro": unique_products})
 
 
 def delete(request, id):
@@ -225,12 +225,12 @@ def bag(request):
         username = request.user.username
         data = Addcart.objects.filter(username=username)
         total = sum(int(item.totalprice) for item in data)
-        return render(request, "bag.html", {"data": data, "total": total, "number": len(data)})
+        return render(request, "myapp/bag.html", {"data": data, "total": total, "number": len(data)})
     else:
         return redirect("/log")
 
 def page(request):
-    return render(request, "page.html")
+    return render(request, "myapp/page.html")
 
 def wish(request, id):
     if request.user.is_authenticated:
@@ -245,7 +245,7 @@ def showwish(request):
     if request.user.is_authenticated:
         username = request.user.username
         data = Wishlist.objects.filter(username=username)
-        return render(request, "wishlist.html", {"wish": data})
+        return render(request, "myapp/wishlist.html", {"wish": data})
     else:
         return redirect("/log")
     
