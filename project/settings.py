@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+try:
+    import dj_database_url
+except ImportError:
+    dj_database_url = None
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -94,6 +98,14 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Prefer Render-provided Postgres in production via DATABASE_URL.
+if dj_database_url:
+    DATABASES['default'] = dj_database_url.parse(
+        os.getenv('DATABASE_URL', f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
+        conn_max_age=600,
+        ssl_require=not DEBUG,
+    )
 
 #add this to send email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

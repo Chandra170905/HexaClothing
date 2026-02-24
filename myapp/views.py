@@ -16,12 +16,12 @@ def index(request):
 
     if request.user.is_authenticated:
         username = request.user.username
-        data = Addcart.objects.filter(username=username)
+        cart_count = Addcart.objects.filter(username=username).count()
         context = {
             "women": women,
             "men": men,
             "Kids": kids,
-            "number": len(data),
+            "number": cart_count,
         }
     else:
         context = {
